@@ -14,7 +14,7 @@ import lombok.*;
 public class SocialAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(nullable = false,length = 20)
     private String provider;

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class User extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name = "fullname",nullable = false, length = 50)
     private String fullName;
@@ -30,7 +30,7 @@ public class User extends BaseEntity{
     @Column(nullable = false, length = 100)
     private String password;
 
-    @Column(name = "is_active", nullable = false)
+    @Column(name = "is_active")
     private boolean isActive;
 
     @Column(name = "date_of_birth")

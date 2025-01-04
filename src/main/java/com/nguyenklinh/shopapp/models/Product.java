@@ -3,6 +3,13 @@ package com.nguyenklinh.shopapp.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+//@Getter
+//@Setter
+//@Builder
+//@NoArgsConstructor
+//@AllArgsConstructor
+//@Entity
+
 @Getter
 @Setter
 @Builder
@@ -14,7 +21,7 @@ import lombok.*;
 public class Product extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(nullable = false, length = 350)
     private String name;
