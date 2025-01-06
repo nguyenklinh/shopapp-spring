@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -39,7 +40,7 @@ public class Order {
     private String note;
 
     @Column(name = "order_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime orderDate;
+    private Date orderDate;
 
     @Column(name = "total_money")
     private float totalMoney;

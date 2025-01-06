@@ -1,6 +1,7 @@
 package com.nguyenklinh.shopapp.responses;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nguyenklinh.shopapp.enums.ErrorCode;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

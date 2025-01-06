@@ -11,6 +11,7 @@ import com.nguyenklinh.shopapp.repositorys.ProductRepository;
 import com.nguyenklinh.shopapp.services.ProductImageService;
 import com.nguyenklinh.shopapp.services.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,7 +21,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ProductImageServiceImpl implements ProductImageService {
-    private final ProductService productService;
+    @Value("${app.max.images.per-product}")
+    private int maxImagesPerProduct;
     private final ProductImageRepository productImageRepository;
     private final ProductRepository productRepository;
     @Override
@@ -29,7 +31,7 @@ public class ProductImageServiceImpl implements ProductImageService {
     }
 
     @Override
-    public ProductImage createProductImage(Long productId, ProductImageDTO productImageDTO) throws Exception {
+    public ProductImage createProductImage(Long productId, ProductImageDTO productImageDTO)  {
         Product existingProduct = productRepository
                 .findById(productId)
                 .orElseThrow(() -> new MyException(ErrorCode.CAN_NOT_FIND_PRODUCT));
@@ -40,9 +42,8 @@ public class ProductImageServiceImpl implements ProductImageService {
                 .build();
         //Ko cho insert quá 5 ảnh cho 1 sản phẩm
         int size = productImageRepository.findByProductId(productId).size();
-        if(size >= 5) {
-            throw new InvalidParamException(
-                    "Number of images must be <= " +5);
+        if(size >= maxImagesPerProduct) {
+            throw new MyException(ErrorCode.MAX_IMAGE_PER_PRODUCT);
         }
         return productImageRepository.save(newProductImage);
     }

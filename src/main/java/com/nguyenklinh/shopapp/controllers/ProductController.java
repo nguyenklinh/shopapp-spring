@@ -1,6 +1,5 @@
 package com.nguyenklinh.shopapp.controllers;
 
-import com.github.javafaker.Faker;
 import com.nguyenklinh.shopapp.dtos.ProductDTO;
 import com.nguyenklinh.shopapp.dtos.ProductImageDTO;
 import com.nguyenklinh.shopapp.enums.ErrorCode;

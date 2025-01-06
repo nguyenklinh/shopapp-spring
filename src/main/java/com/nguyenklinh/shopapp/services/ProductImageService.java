@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface ProductImageService {
     public List<ProductImage> uploadProductImages(Long productId, List<MultipartFile> files) throws IOException;
-    public ProductImage createProductImage(Long productId, ProductImageDTO productImageDTO) throws Exception;
+    public ProductImage createProductImage(Long productId, ProductImageDTO productImageDTO) ;
 }

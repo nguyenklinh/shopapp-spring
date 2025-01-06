@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -29,6 +30,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     @Override
+    @Transactional
     public Product createProduct(ProductDTO productDTO) {
         Category existingCategory = categoryRepository
                 .findById(productDTO.getCategoryId())
@@ -59,6 +61,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public Product updateProduct(Long id, ProductDTO productDTO)  {
         Product existingProduct = getProductById(id);
         //copy các thuộc tính từ DTO -> Product
@@ -77,6 +80,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public void deleteProduct(Long id) {
         Product product  = productRepository.findById(id)
                 .orElseThrow(()->
