@@ -50,7 +50,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order getOrder(Long id) {
-        return null;
+        Order order = orderRepository.findById(id)
+                .orElseThrow(()-> new MyException(ErrorCode.CAN_NOT_FIND_ORDER));
+        return order;
     }
 
     @Override

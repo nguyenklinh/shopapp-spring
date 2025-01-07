@@ -44,4 +44,13 @@ public class OrderController {
                 .result(order)
                 .build());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getOrder(@PathVariable("id") Long id) {
+        Order order = orderService.getOrder(id);
+        return ResponseEntity.ok(ApiResponse.builder()
+                .success(true)
+                .result(order)
+                .build());
+    }
 }

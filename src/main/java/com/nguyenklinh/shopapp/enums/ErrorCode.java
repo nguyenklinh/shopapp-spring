@@ -32,7 +32,13 @@ public enum ErrorCode {
     ADDRESS_NOT_BLANK(1025,"Address must not be blank",HttpStatus.BAD_REQUEST),
     EMAIL_INVALID(1026,"Email is invalid",HttpStatus.BAD_REQUEST),
     CAN_NOT_FIND_ORDER(1027,"Cannot find order with id",HttpStatus.NOT_FOUND),
-    ORDER_ALREADY_PROCESSED(1028,"Order already processed",HttpStatus.BAD_REQUEST),;
+    ORDER_ALREADY_PROCESSED(1028,"Order already processed",HttpStatus.BAD_REQUEST),
+    PRODUCT_ID_REQUIRED(1029,"Product id must be greater than 0",HttpStatus.BAD_REQUEST),
+    NUMBER_OF_PRODUCTS_MUST_BE_GREATER_THAN_OR_EQUAL_TO_1(1030,"Number of products must be greater than or equal to 1",HttpStatus.BAD_REQUEST),
+    TOTAL_MONEY_MUST_BE_GREATER_THAN_OR_EQUAL_TO_0(1031,"Total money must be greater than or equal to 0",HttpStatus.BAD_REQUEST),
+    CAN_NOT_FIND_ORDER_DETAIL(1032,"Cannot find order detail with id",HttpStatus.NOT_FOUND),
+    ORDER_DETAILS_NOT_FOUND(1033,"This order has no order details.",HttpStatus.NOT_FOUND),
+    ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
