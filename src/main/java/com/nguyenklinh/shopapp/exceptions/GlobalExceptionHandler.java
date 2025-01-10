@@ -5,6 +5,7 @@ import com.nguyenklinh.shopapp.responses.ApiResponse;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -34,6 +35,11 @@ public class GlobalExceptionHandler {
                         .code(errorCode.getCode())
                         .message(errorCode.getMessage())
                         .build());
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<ApiResponse<?>> handleUsernameNotFound(UsernameNotFoundException e) {
+        return buildResponse(ErrorCode.USERNAME_NOT_FOUND, e.getMessage());
     }
     @ExceptionHandler(value = MyException.class)
     ResponseEntity<ApiResponse> handlingAppException(MyException exception) {

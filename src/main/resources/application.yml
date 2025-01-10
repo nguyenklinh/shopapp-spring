@@ -25,3 +25,7 @@ app:
       size: 10485760
     images:
       per-product: 5
+jwt:
+  expiration-refresh-token: 5184000
+  expiration: 2592000
+  secretkey: TaqlmGv1iEDMRiFp/pHuID1+T84IABfuA0xXh4GhiUI=

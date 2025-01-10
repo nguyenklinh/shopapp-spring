@@ -38,6 +38,13 @@ public enum ErrorCode {
     TOTAL_MONEY_MUST_BE_GREATER_THAN_OR_EQUAL_TO_0(1031,"Total money must be greater than or equal to 0",HttpStatus.BAD_REQUEST),
     CAN_NOT_FIND_ORDER_DETAIL(1032,"Cannot find order detail with id",HttpStatus.NOT_FOUND),
     ORDER_DETAILS_NOT_FOUND(1033,"This order has no order details.",HttpStatus.NOT_FOUND),
+    USERNAME_NOT_FOUND(1034,"Username not found",HttpStatus.NOT_FOUND),
+    CAN_NOT_GET_AUTHENTICATION_MANAGER(1035,"Cannot get AuthenticationManager",HttpStatus.INTERNAL_SERVER_ERROR),
+    CAN_NOT_CREATE_SECURITY_FILTER_CHAIN(1036,"Cannot create SecurityFilterChain",HttpStatus.INTERNAL_SERVER_ERROR),
+    CAN_NOT_FIND_ROLE(1023,"Cannot find role with id",HttpStatus.NOT_FOUND),
+    USERNAME_OR_PASSWORD_INVALID(1024, "username of password invalid", HttpStatus.BAD_REQUEST),
+    PASSWORD_NOT_MATCH(1025, "password not match", HttpStatus.BAD_REQUEST),
+    PASSWORD_NOT_BLANK(1026, "Password must not be blank", HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
