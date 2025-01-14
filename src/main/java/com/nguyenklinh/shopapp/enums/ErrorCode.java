@@ -6,12 +6,12 @@ import org.springframework.http.HttpStatusCode;
 @Getter
 public enum ErrorCode {
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR),
-    INVALID_KEY(1001, "Uncategorized error", HttpStatus.BAD_REQUEST),
+//    INVALID_KEY(1001, "Uncategorized error", HttpStatus.BAD_REQUEST),
     USER_EXISTED(1002, "User existed", HttpStatus.BAD_REQUEST),
     USER_NOT_EXISTED(1005, "User not existed", HttpStatus.NOT_FOUND),
-    CATEGORYID_NOT_EXISTED(1003, "Category id not existed", HttpStatus.NOT_FOUND),
+//    CATEGORYID_NOT_EXISTED(1003, "Category id not existed", HttpStatus.NOT_FOUND),
     UNAUTHENTICATED(1006, "Unauthenticated", HttpStatus.UNAUTHORIZED),
-    UNAUTHORIZED(1007, "You do not have permission", HttpStatus.FORBIDDEN),
+    ACCESS_DENIED(1007, "Access Denied", HttpStatus.FORBIDDEN),
     INVALID_DOB(1008, "Your age must be at least {min}",HttpStatus.BAD_REQUEST),
     UNSUPPORTED_MEDIA_TYPE(1009,"unsupported media type",HttpStatus.UNSUPPORTED_MEDIA_TYPE),
     CREATE_PRODUCT_FAILED(1010,"Create product failed",HttpStatus.BAD_REQUEST),
@@ -45,6 +45,7 @@ public enum ErrorCode {
     USERNAME_OR_PASSWORD_INVALID(1024, "username of password invalid", HttpStatus.BAD_REQUEST),
     PASSWORD_NOT_MATCH(1025, "password not match", HttpStatus.BAD_REQUEST),
     PASSWORD_NOT_BLANK(1026, "Password must not be blank", HttpStatus.BAD_REQUEST),
+    CATEGORY_NAME_NOT_BLANK(1027,"category name not be blank", HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

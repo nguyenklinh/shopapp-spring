@@ -2,7 +2,6 @@ package com.nguyenklinh.shopapp.services.impl;
 
 import com.nguyenklinh.shopapp.dtos.ProductImageDTO;
 import com.nguyenklinh.shopapp.enums.ErrorCode;
-import com.nguyenklinh.shopapp.exceptions.InvalidParamException;
 import com.nguyenklinh.shopapp.exceptions.MyException;
 import com.nguyenklinh.shopapp.models.Product;
 import com.nguyenklinh.shopapp.models.ProductImage;

@@ -12,6 +12,7 @@ import com.nguyenklinh.shopapp.repositorys.OrderRepository;
 import com.nguyenklinh.shopapp.repositorys.ProductRepository;
 import com.nguyenklinh.shopapp.services.OrderDetailService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
     private final OrderDetailMapper orderDetailMapper;
+
     @Override
     public OrderDetail createOrderDetail(OrderDetailDTO orderDetailDTO) {
         Order order = orderRepository.findById(orderDetailDTO.getOrderId())

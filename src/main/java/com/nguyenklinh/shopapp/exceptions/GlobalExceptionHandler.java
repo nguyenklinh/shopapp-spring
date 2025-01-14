@@ -5,13 +5,14 @@ import com.nguyenklinh.shopapp.responses.ApiResponse;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 @ControllerAdvice
@@ -28,7 +29,7 @@ public class GlobalExceptionHandler {
                         .build());
     }
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-    public ResponseEntity<ApiResponse> handleUnsupportedMediaType(HttpMediaTypeNotSupportedException e) {
+    public ResponseEntity<ApiResponse<?>> handleUnsupportedMediaType(HttpMediaTypeNotSupportedException e) {
         ErrorCode errorCode = ErrorCode.UNSUPPORTED_MEDIA_TYPE;
         return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
                 .body(ApiResponse.builder()
@@ -42,7 +43,7 @@ public class GlobalExceptionHandler {
         return buildResponse(ErrorCode.USERNAME_NOT_FOUND, e.getMessage());
     }
     @ExceptionHandler(value = MyException.class)
-    ResponseEntity<ApiResponse> handlingAppException(MyException exception) {
+    ResponseEntity<ApiResponse<?>> handlingAppException(MyException exception) {
         ErrorCode errorCode = exception.getErrorCode();
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setCode(errorCode.getCode());
@@ -50,19 +51,10 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(errorCode.getStatusCode()).body(apiResponse);
     }
-    @ExceptionHandler(InvalidParamException.class)
-    public ResponseEntity<ApiResponse<?>> handleInvalidParamException(InvalidParamException ex) {
-        ApiResponse<?> apiResponse = ApiResponse.builder()
-                .success(false)
-                .message(ex.getMessage())
-                .build();
-        return  ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(apiResponse);
-    }
-    @ExceptionHandler(value = AccessDeniedException.class)
-    ResponseEntity<ApiResponse> handlingAccessDeniedException(AccessDeniedException exception) {
-        ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
+
+    @ExceptionHandler(AccessDeniedException.class)
+    ResponseEntity<ApiResponse<?>> handlingAccessDeniedException(AccessDeniedException exception) {
+        ErrorCode errorCode = ErrorCode.ACCESS_DENIED;
 
         return ResponseEntity.status(errorCode.getStatusCode())
                 .body(ApiResponse.builder()
@@ -70,32 +62,21 @@ public class GlobalExceptionHandler {
                         .message(errorCode.getMessage())
                         .build());
     }
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ApiResponse<?>> handleConstraintViolation(ConstraintViolationException e) {
-        List<String> errors = e.getConstraintViolations()
-                .stream()
-                .map(violation -> violation.getPropertyPath() + ": " + violation.getMessage())
-                .toList();
-
-        return ResponseEntity.badRequest()
-                .body(ApiResponse.builder()
-                        .success(false)
-                        .message("Constraint violations")
-                        .result(errors)
-                        .build());
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ApiResponse<?>> handleAuthenticationException(AuthenticationException exception) {
+        ErrorCode errorCode = ErrorCode.UNAUTHENTICATED;
+        ApiResponse<?> apiResponse = ApiResponse.builder()
+                .code(errorCode.getCode())
+                .message(errorCode.getMessage())
+                .success(false)
+                .build();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(apiResponse);
     }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<?>> handleGenericException(Exception e) {
         return buildResponse(ErrorCode.UNCATEGORIZED_EXCEPTION, e.getMessage());
     }
 
-    @ExceptionHandler(DataNotFoundException.class)
-    public ResponseEntity<ApiResponse<?>> handleDataNotFound(DataNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.builder()
-                .success(false)
-                .message(ex.getMessage())
-                .build());
-    }
     private ResponseEntity<ApiResponse<?>> buildResponse(ErrorCode errorCode, String details) {
         return ResponseEntity.status(errorCode.getStatusCode())
                 .body(ApiResponse.builder()

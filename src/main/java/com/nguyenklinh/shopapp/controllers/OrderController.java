@@ -8,8 +8,11 @@ import com.nguyenklinh.shopapp.validation.UpdateOrderValidationGroup;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("${api.prefix}/orders")
@@ -35,6 +38,15 @@ public class OrderController {
                 .build());
     }
 
+    @GetMapping("user/{user_id}")
+    public ResponseEntity<?> getOrders(@Valid @PathVariable("user_id") Long id){
+        List<Order> orders = orderService.findByUserId(id);
+        return ResponseEntity.ok(ApiResponse.builder()
+                .success(true)
+                .result(orders)
+                .build());
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<?> updateOrder(@PathVariable("id") Long id,
                                          @Validated(UpdateOrderValidationGroup.class) @RequestBody OrderDTO orderDTO) {
@@ -44,7 +56,7 @@ public class OrderController {
                 .result(order)
                 .build());
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping("/{id}")
     public ResponseEntity<?> getOrder(@PathVariable("id") Long id) {
         Order order = orderService.getOrder(id);
