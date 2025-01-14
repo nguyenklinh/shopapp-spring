@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
 import lombok.*;
 
-@Data//toString
+@Data
 @Getter
 @Setter
 @AllArgsConstructor

@@ -3,8 +3,6 @@ package com.nguyenklinh.shopapp.services.impl;
 import com.nguyenklinh.shopapp.dtos.ProductDTO;
 import com.nguyenklinh.shopapp.dtos.ProductImageDTO;
 import com.nguyenklinh.shopapp.enums.ErrorCode;
-import com.nguyenklinh.shopapp.exceptions.DataNotFoundException;
-import com.nguyenklinh.shopapp.exceptions.InvalidParamException;
 import com.nguyenklinh.shopapp.exceptions.MyException;
 import com.nguyenklinh.shopapp.models.Category;
 import com.nguyenklinh.shopapp.models.Product;
@@ -35,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
         Category existingCategory = categoryRepository
                 .findById(productDTO.getCategoryId())
                 .orElseThrow(() ->
-                        new MyException(ErrorCode.CATEGORYID_NOT_EXISTED));
+                        new MyException(ErrorCode.CATEGORY_ID_NOT_FOUND));
 
         Product newProduct = Product.builder()
                 .name(productDTO.getName())

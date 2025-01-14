@@ -38,6 +38,7 @@ public class UserServiceImpl implements UserService {
         if(userRepository.existsByPhoneNumber(phoneNumber)) {
             throw new MyException(ErrorCode.USER_EXISTED);
         }
+        userDTO.setRoleId(1L);
         Role role = roleRepository.findById(userDTO.getRoleId())
                 .orElseThrow(()-> new MyException(ErrorCode.CAN_NOT_FIND_ROLE));
 

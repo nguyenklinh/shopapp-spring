@@ -34,7 +34,7 @@ public class JwtTokenUtil {
                 .setClaims(claims)
                 .setSubject(user.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000L))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
         return token;
@@ -49,7 +49,7 @@ public class JwtTokenUtil {
         return  Jwts.parser()
                 .setSigningKey(getSignInKey())
                 .build()
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody();
     }
     public  <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
@@ -60,5 +60,15 @@ public class JwtTokenUtil {
     public boolean isTokenExpired(String token) {
         Date expirationDate = this.extractClaim(token, Claims::getExpiration);
         return expirationDate.before(new Date());
+    }
+
+    public String extractPhoneNumber(String token){
+        return extractClaim(token, Claims::getSubject);
+    }
+
+    public boolean isValidateToken(String token, UserDetails userDetails) {
+        String phoneNumber = extractPhoneNumber(token);
+        return (phoneNumber.equals(userDetails.getUsername()))
+                && !isTokenExpired(token);
     }
 }

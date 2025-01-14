@@ -11,6 +11,7 @@ import com.nguyenklinh.shopapp.repositorys.OrderRepository;
 import com.nguyenklinh.shopapp.repositorys.UserRepository;
 import com.nguyenklinh.shopapp.services.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,6 +82,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> findByUserId(Long userId) {
-        return null;
+        return orderRepository.findByUserId(userId);
     }
 }
