@@ -10,7 +10,11 @@ spring:
       hibernate:
         ddl-auto: none
       show-sql: true
-
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
+    fallback-to-system-locale: false
+    use-code-as-default-message: false
   #config file and multipart file
   servlet:
     multipart:
