@@ -4,11 +4,12 @@ import com.nguyenklinh.shopapp.dtos.OrderDTO;
 import com.nguyenklinh.shopapp.models.Order;
 import com.nguyenklinh.shopapp.responses.ApiResponse;
 import com.nguyenklinh.shopapp.services.OrderService;
+import com.nguyenklinh.shopapp.components.MessageUtil;
+import com.nguyenklinh.shopapp.utils.MessageKeys;
 import com.nguyenklinh.shopapp.validation.UpdateOrderValidationGroup;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
+    private final MessageUtil messageUtil;
 
     @PostMapping
     public ResponseEntity<?> createOrder(@Valid @RequestBody OrderDTO orderDTO) {
@@ -34,7 +36,7 @@ public class OrderController {
         orderService.deleteOrder(id);
         return ResponseEntity.ok(ApiResponse.builder()
                 .success(true)
-                .message("Delete order successfully")
+                .message(messageUtil.getMessage(MessageKeys.SUCCESS_DELETED_ORDER))
                 .build());
     }
 
@@ -56,7 +58,6 @@ public class OrderController {
                 .result(order)
                 .build());
     }
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping("/{id}")
     public ResponseEntity<?> getOrder(@PathVariable("id") Long id) {
         Order order = orderService.getOrder(id);

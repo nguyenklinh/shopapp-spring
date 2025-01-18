@@ -82,7 +82,7 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(Long id) {
         Product product  = productRepository.findById(id)
                 .orElseThrow(()->
-                        new MyException(ErrorCode.CAN_NOT_FIND_PRODUCT));
+                        new MyException(ErrorCode.CAN_NOT_FIND_PRODUCT,id,5L));
         productRepository.delete(product);
     }
 

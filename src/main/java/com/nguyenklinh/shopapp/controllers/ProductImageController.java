@@ -1,5 +1,6 @@
 package com.nguyenklinh.shopapp.controllers;
 
+import com.nguyenklinh.shopapp.components.MessageUtil;
 import com.nguyenklinh.shopapp.dtos.ProductImageDTO;
 import com.nguyenklinh.shopapp.enums.ErrorCode;
 import com.nguyenklinh.shopapp.exceptions.MyException;
@@ -8,6 +9,7 @@ import com.nguyenklinh.shopapp.models.ProductImage;
 import com.nguyenklinh.shopapp.responses.ApiResponse;
 import com.nguyenklinh.shopapp.services.ProductImageService;
 import com.nguyenklinh.shopapp.services.ProductService;
+import com.nguyenklinh.shopapp.utils.MessageKeys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -39,6 +41,7 @@ public class ProductImageController {
 
     private final ProductImageService productImageService;
     private final ProductService productService;
+    private final MessageUtil messageUtil;
     @PostMapping(value = "uploads/{productId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadImages(
             @PathVariable("productId") Long productId,
@@ -50,7 +53,7 @@ public class ProductImageController {
             return ResponseEntity.badRequest()
                     .body(ApiResponse.builder()
                             .success(false)
-                            .message("Số lượng ảnh vượt quá giới hạn cho phép")
+                            .message(messageUtil.getMessage(MessageKeys.IMAGE_MAX_LIMIT))
                             .build());
         }
         List<ProductImage> productImages = new ArrayList<>();
