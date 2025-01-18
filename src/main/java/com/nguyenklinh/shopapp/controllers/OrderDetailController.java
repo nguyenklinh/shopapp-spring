@@ -1,9 +1,11 @@
 package com.nguyenklinh.shopapp.controllers;
 
+import com.nguyenklinh.shopapp.components.MessageUtil;
 import com.nguyenklinh.shopapp.dtos.OrderDetailDTO;
 import com.nguyenklinh.shopapp.models.OrderDetail;
 import com.nguyenklinh.shopapp.responses.ApiResponse;
 import com.nguyenklinh.shopapp.services.OrderDetailService;
+import com.nguyenklinh.shopapp.utils.MessageKeys;
 import com.nguyenklinh.shopapp.validation.UpdateOrderDetailValidationGroup;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import java.util.List;
 //http://localhost:8083/api/v1/order-details
 public class OrderDetailController {
     private final OrderDetailService orderDetailService;
+    private final MessageUtil messageUtil;
 
     @PostMapping
     public ResponseEntity<?> createOrderDetail(@Valid @RequestBody OrderDetailDTO orderDetailDTO) {
@@ -51,7 +54,7 @@ public class OrderDetailController {
         orderDetailService.deleteOrderDetail(id);
         return ResponseEntity.ok(ApiResponse.builder()
                 .success(true)
-                .message("Delete order detail successfully")
+                .message(messageUtil.getMessage(MessageKeys.SUCCESS_DELETED_ORDER_DETAIL))
                 .build());
     }
 

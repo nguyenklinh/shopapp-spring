@@ -2,7 +2,8 @@ package com.nguyenklinh.shopapp.exceptions;
 
 import com.nguyenklinh.shopapp.enums.ErrorCode;
 import com.nguyenklinh.shopapp.responses.ApiResponse;
-import jakarta.validation.ConstraintViolationException;
+import com.nguyenklinh.shopapp.components.MessageUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -13,10 +14,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.util.List;
-
 @ControllerAdvice
+@RequiredArgsConstructor
 public class GlobalExceptionHandler {
+    private final MessageUtil messageUtil;
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ResponseEntity<ApiResponse<?>> handlingValidation(MethodArgumentNotValidException e){
         String enumKey = e.getBindingResult().getFieldError().getDefaultMessage();
@@ -45,9 +46,20 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = MyException.class)
     ResponseEntity<ApiResponse<?>> handlingAppException(MyException exception) {
         ErrorCode errorCode = exception.getErrorCode();
+        String message;
+        try {
+            // X? lý message v?i getParameter
+            message = (exception.getParameter() != null && exception.getParameter().length > 0) ?
+                    messageUtil.getMessage(errorCode.getMessage(), exception.getParameter()) :
+                    messageUtil.getMessage(errorCode.getMessage());
+        } catch (Exception e) {
+            // Fallback n?u có l?i khi format message
+            message = errorCode.getMessage();
+        }
+
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setCode(errorCode.getCode());
-        apiResponse.setMessage(errorCode.getMessage());
+        apiResponse.setMessage(message);
 
         return ResponseEntity.status(errorCode.getStatusCode()).body(apiResponse);
     }

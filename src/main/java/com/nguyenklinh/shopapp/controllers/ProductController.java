@@ -1,5 +1,6 @@
 package com.nguyenklinh.shopapp.controllers;
 
+import com.nguyenklinh.shopapp.components.MessageUtil;
 import com.nguyenklinh.shopapp.dtos.ProductDTO;
 import com.nguyenklinh.shopapp.dtos.ProductImageDTO;
 import com.nguyenklinh.shopapp.enums.ErrorCode;
@@ -10,6 +11,7 @@ import com.nguyenklinh.shopapp.responses.ApiResponse;
 import com.nguyenklinh.shopapp.responses.ProductListResponse;
 import com.nguyenklinh.shopapp.responses.ProductResponse;
 import com.nguyenklinh.shopapp.services.ProductService;
+import com.nguyenklinh.shopapp.utils.MessageKeys;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 
 public class ProductController {
     private final ProductService productService;
+    private final MessageUtil messageUtil;
     @PostMapping
     public ResponseEntity<?> createProduct(@Valid @RequestBody ProductDTO productDTO)  {
             Product newProduct = productService.createProduct(productDTO);
@@ -74,7 +77,7 @@ public class ProductController {
         productService.deleteProduct(productId);
         return ResponseEntity.ok(ApiResponse.builder()
                 .success(true)
-                .message("product has been deleted")
+                .message(messageUtil.getMessage(MessageKeys.SUCCESS_DELETED_PRODUCT))
                 .build());
     }
 
