@@ -12,6 +12,9 @@ import com.nguyenklinh.shopapp.services.ProductService;
 import com.nguyenklinh.shopapp.utils.MessageKeys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +24,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequiredArgsConstructor
@@ -84,6 +89,29 @@ public class ProductImageController {
                 .success(true)
                 .result(productImages)
                 .build());
+    }
+
+    @GetMapping("/{image-name}")
+    public ResponseEntity<?> viewImage(@PathVariable("image-name") String imageName) {
+        try {
+            Path imagePath = Paths.get("uploads").resolve(imageName).normalize();
+            UrlResource urlResource = new UrlResource(imagePath.toUri());
+
+            if (urlResource.exists()) {
+                return ResponseEntity.ok()
+                        .cacheControl(CacheControl.maxAge(1, TimeUnit.DAYS))
+                        .contentType(MediaType.IMAGE_JPEG)
+                        .body(urlResource);
+            } else {
+                Path defaultImagePath = Paths.get("uploads/notfound.jpg").normalize();
+                Resource defaultResource = new UrlResource(defaultImagePath.toUri());
+                return ResponseEntity.ok()
+                        .contentType(MediaType.IMAGE_JPEG)
+                        .body(defaultResource);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
     private String storeFile(MultipartFile file) {
         if (!isImageFile(file) || file.getOriginalFilename() == null) {

@@ -38,6 +38,8 @@ public class MessageKeys {
     public static final String CATEGORY_NAME_BLANK = "error.category.name.blank";
 
     // File Related
+    public static final String FILE_NOT_FOUND = "error.file.not.found";
+    public static final String INVALID_FILE_NAME = "error.file.name.invalid";
     public static final String IMAGE_MAX_LIMIT = "error.image.max.limit";
     public static final String FILE_TYPE_INVALID = "error.file.type.invalid";
     public static final String FILE_SAVE = "error.file.save";

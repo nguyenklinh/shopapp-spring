@@ -48,12 +48,12 @@ public class GlobalExceptionHandler {
         ErrorCode errorCode = exception.getErrorCode();
         String message;
         try {
-            // X? lý message v?i getParameter
+            // X? lï¿½ message v?i getParameter
             message = (exception.getParameter() != null && exception.getParameter().length > 0) ?
                     messageUtil.getMessage(errorCode.getMessage(), exception.getParameter()) :
                     messageUtil.getMessage(errorCode.getMessage());
         } catch (Exception e) {
-            // Fallback n?u có l?i khi format message
+            // Fallback n?u cï¿½ l?i khi format message
             message = errorCode.getMessage();
         }
 
@@ -94,7 +94,7 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.builder()
                         .code(errorCode.getCode())
                         .success(false)
-                        .message(errorCode.getMessage() + (details != null ? ": " + details : ""))
+                        .message(messageUtil.getMessage(errorCode.getMessage()) + (details != null ? ": " + details : ""))
                         .build());
     }
 }

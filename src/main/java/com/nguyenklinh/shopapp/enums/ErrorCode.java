@@ -45,6 +45,9 @@ public enum ErrorCode {
     PASSWORD_NOT_MATCH(1025, MessageKeys.PASSWORD_NOT_MATCH, HttpStatus.BAD_REQUEST),
     PASSWORD_NOT_BLANK(1026, MessageKeys.PASSWORD_BLANK, HttpStatus.BAD_REQUEST),
     CATEGORY_NAME_NOT_BLANK(1027,MessageKeys.CATEGORY_NAME_BLANK, HttpStatus.BAD_REQUEST),
+    FILE_NOT_FOUND(1028, MessageKeys.FILE_NOT_FOUND, HttpStatus.NOT_FOUND),
+    INVALID_FILE_NAME(1029, MessageKeys.INVALID_FILE_NAME, HttpStatus.BAD_REQUEST),
+
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
