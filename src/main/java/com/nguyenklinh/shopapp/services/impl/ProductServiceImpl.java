@@ -16,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
-    private final ProductImageRepository productImageRepository;
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     @Override
@@ -52,10 +53,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductResponse> getAllProducts(PageRequest pageRequest) {
-        return productRepository
-                .findAll(pageRequest)
-                .map(product -> ProductResponse.fromProduct(product));
+    public Page<ProductResponse> getAllProducts(String keyword, Long categoryId, Double minPrice, Double maxPrice, Pageable pageable) {
+        Page<Product> productPage = productRepository.searchProducts(keyword, categoryId, minPrice, maxPrice, pageable);
+        return productPage.map(ProductResponse::fromProduct);
     }
 
     @Override

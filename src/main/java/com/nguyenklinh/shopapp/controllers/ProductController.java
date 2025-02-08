@@ -43,14 +43,19 @@ public class ProductController {
     @GetMapping("")
     public ResponseEntity<?> getProducts(
             @RequestParam("page")     int page,
-            @RequestParam("limit")    int limit
+            @RequestParam("limit")    int limit,
+            @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "categoryId", required = false) Long categoryId,
+            @RequestParam(value = "minPrice", required = false) Double minPrice,
+            @RequestParam(value = "maxPrice", required = false) Double maxPrice
     ) {
         // Tạo Pageable từ thông tin trang và giới hạn
         PageRequest pageRequest = PageRequest.of(
-                page, limit,
-                Sort.by("createdAt").descending());
+                page-1, limit);
 
-        Page<ProductResponse> productPage = productService.getAllProducts(pageRequest);
+        Page<ProductResponse> productPage = productService.getAllProducts(
+                keyword, categoryId, minPrice, maxPrice, pageRequest);
+
         ProductListResponse response = ProductListResponse.builder()
                 .totalPages(productPage.getTotalPages())
                 .currentPage(page)
