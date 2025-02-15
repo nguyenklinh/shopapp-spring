@@ -7,6 +7,7 @@ import com.nguyenklinh.shopapp.models.ProductImage;
 import com.nguyenklinh.shopapp.responses.ProductResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 public interface ProductService {
@@ -14,7 +15,7 @@ public interface ProductService {
 
     Product getProductById(Long productId) ;
 
-    Page<ProductResponse> getAllProducts(PageRequest pageRequest);
+    Page<ProductResponse> getAllProducts(String keyword, Long categoryId, Double minPrice, Double maxPrice, Pageable pageable);
 
     Product updateProduct(Long id, ProductDTO productDTO) ;
 
