@@ -1,13 +1,18 @@
 package com.nguyenklinh.shopapp.services.impl;
 
+import com.nguyenklinh.shopapp.dtos.CartItemDTO;
 import com.nguyenklinh.shopapp.dtos.OrderDTO;
 import com.nguyenklinh.shopapp.enums.ErrorCode;
 import com.nguyenklinh.shopapp.enums.OrderStatus;
 import com.nguyenklinh.shopapp.exceptions.MyException;
 import com.nguyenklinh.shopapp.mapper.OrderMapper;
 import com.nguyenklinh.shopapp.models.Order;
+import com.nguyenklinh.shopapp.models.OrderDetail;
+import com.nguyenklinh.shopapp.models.Product;
 import com.nguyenklinh.shopapp.models.User;
+import com.nguyenklinh.shopapp.repositorys.OrderDetailRepository;
 import com.nguyenklinh.shopapp.repositorys.OrderRepository;
+import com.nguyenklinh.shopapp.repositorys.ProductRepository;
 import com.nguyenklinh.shopapp.repositorys.UserRepository;
 import com.nguyenklinh.shopapp.services.OrderService;
 import com.nguyenklinh.shopapp.components.MessageUtil;
@@ -16,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +30,9 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final UserRepository  userRepository;
+    private final ProductRepository productRepository;
     private final OrderMapper orderMapper;
+    private final OrderDetailRepository orderDetailRepository;
     private final MessageUtil messageUtil;
 
     @Override
@@ -35,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
 
         Order order = orderMapper.toOrder(orderDTO);
         order.setUser(user);
-        order.setOrderDate(new Date());
+        order.setOrderDate(new Date());//lấy thời gian hện tại
         order.setStatus(String.valueOf(OrderStatus.PENDING));
         //Kiểm tra shipping date phải >= ngày hôm nay
         LocalDate shippingDate = orderDTO.getShippingDate() == null
@@ -43,9 +51,32 @@ public class OrderServiceImpl implements OrderService {
         if (shippingDate.isBefore(LocalDate.now())) {
             throw new MyException(ErrorCode.INVALID_SHIPPING_DATE);
         }
+
         order.setShippingDate(shippingDate);
         order.setActive(true);
+        order.setTotalMoney(orderDTO.getTotalMoney());
         orderRepository.save(order);
+
+        //tạo danh sách orderDetails
+        List<OrderDetail> orderDetails = new ArrayList<>();
+        for (CartItemDTO cartItemDTO : orderDTO.getCartItems()){
+            OrderDetail orderDetail = new OrderDetail();
+            orderDetail.setOrder(order);
+
+            //lấy thông tin sp từ cartItem
+            Long ProductId = cartItemDTO.getProductId();
+            int quantity = cartItemDTO.getQuantity();
+
+            Product product = productRepository.findById(ProductId)
+                    .orElseThrow(()-> new MyException(ErrorCode.CAN_NOT_FIND_PRODUCT,ProductId));
+
+            orderDetail.setProduct(product);
+            orderDetail.setNumberOfProducts(quantity);
+            orderDetail.setPrice(product.getPrice());
+            orderDetail.setTotalMoney(product.getPrice() * quantity);
+            orderDetails.add(orderDetail);
+        }
+        orderDetailRepository.saveAll(orderDetails);
         return order;
     }
 

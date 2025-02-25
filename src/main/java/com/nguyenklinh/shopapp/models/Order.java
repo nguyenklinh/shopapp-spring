@@ -1,11 +1,13 @@
 package com.nguyenklinh.shopapp.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -65,4 +67,8 @@ public class Order {
 
     @Column(name = "status", length = 50)
     private String status;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<OrderDetail> orderDetails;
 }
