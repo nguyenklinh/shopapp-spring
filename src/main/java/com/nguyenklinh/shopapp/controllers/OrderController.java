@@ -3,6 +3,7 @@ package com.nguyenklinh.shopapp.controllers;
 import com.nguyenklinh.shopapp.dtos.OrderDTO;
 import com.nguyenklinh.shopapp.models.Order;
 import com.nguyenklinh.shopapp.responses.ApiResponse;
+import com.nguyenklinh.shopapp.responses.OrderResponse;
 import com.nguyenklinh.shopapp.services.OrderService;
 import com.nguyenklinh.shopapp.components.MessageUtil;
 import com.nguyenklinh.shopapp.utils.MessageKeys;
@@ -43,9 +44,10 @@ public class OrderController {
     @GetMapping("user/{user_id}")
     public ResponseEntity<?> getOrders(@Valid @PathVariable("user_id") Long id){
         List<Order> orders = orderService.findByUserId(id);
+        List<OrderResponse> orderResponses = OrderResponse.fromOrderList(orders);
         return ResponseEntity.ok(ApiResponse.builder()
                 .success(true)
-                .result(orders)
+                .result(orderResponses)
                 .build());
     }
 
@@ -61,9 +63,10 @@ public class OrderController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getOrder(@PathVariable("id") Long id) {
         Order order = orderService.getOrder(id);
+        OrderResponse orderResponse = OrderResponse.fromOrder(order);
         return ResponseEntity.ok(ApiResponse.builder()
                 .success(true)
-                .result(order)
+                .result(orderResponse)
                 .build());
     }
 }
