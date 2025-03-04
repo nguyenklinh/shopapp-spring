@@ -3,6 +3,7 @@ package com.nguyenklinh.shopapp.services.impl;
 import com.nguyenklinh.shopapp.components.JwtTokenUtil;
 import com.nguyenklinh.shopapp.dtos.UserDTO;
 import com.nguyenklinh.shopapp.enums.ErrorCode;
+import com.nguyenklinh.shopapp.exceptions.DataNotFoundException;
 import com.nguyenklinh.shopapp.exceptions.MyException;
 import com.nguyenklinh.shopapp.mapper.UserMapper;
 import com.nguyenklinh.shopapp.models.Role;
@@ -56,10 +57,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String login(String phoneNumber, String password) {
+    public String login(String phoneNumber, String password)  {
         Optional<User> optionalUser = userRepository.findByPhoneNumber(phoneNumber);
         if (optionalUser.isEmpty()){
-            throw new MyException(ErrorCode.USERNAME_OR_PASSWORD_INVALID);
+            throw new MyException(ErrorCode.CAN_NOT_FIND_USER);
         }
         User existingUser = optionalUser.get();
         if (existingUser.getFacebookAccountId() == 0
@@ -68,10 +69,27 @@ public class UserServiceImpl implements UserService {
                 throw new MyException(ErrorCode.USERNAME_OR_PASSWORD_INVALID);
             }
         }
+        if (!existingUser.isActive()){
+            throw new MyException(ErrorCode.USER_ID_LOCKED);
+        }
         UsernamePasswordAuthenticationToken authenticationToken
                 = new UsernamePasswordAuthenticationToken(phoneNumber,password,existingUser.getAuthorities());
 
         authenticationManager.authenticate(authenticationToken);
         return jwtTokenUtil.generateToken(existingUser);
+    }
+
+    @Override
+    public User getUserDetailsFromToken(String token) {
+        String extractedToken = token.substring(7);
+        if (jwtTokenUtil.isTokenExpired(extractedToken)){
+            throw new MyException(ErrorCode.TOKEN_EXPIRED);
+        }
+        String phoneNumber = jwtTokenUtil.extractPhoneNumber(extractedToken);
+        Optional<User> optionalUser = userRepository.findByPhoneNumber(phoneNumber);
+        if (optionalUser.isEmpty()){
+            throw new MyException(ErrorCode.CAN_NOT_FIND_USER);
+        }
+        return optionalUser.get();
     }
 }

@@ -6,6 +6,7 @@ import com.nguyenklinh.shopapp.enums.ErrorCode;
 import com.nguyenklinh.shopapp.exceptions.MyException;
 import com.nguyenklinh.shopapp.models.User;
 import com.nguyenklinh.shopapp.responses.ApiResponse;
+import com.nguyenklinh.shopapp.responses.UserResponse;
 import com.nguyenklinh.shopapp.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,14 @@ public class UserController {
         return ResponseEntity.ok(ApiResponse.builder()
                 .success(true)
                 .result(token)
+                .build());
+    }
+    @PostMapping("/details")
+    public ResponseEntity<?> getUserDetails(@RequestHeader("Authorization") String token){
+        User user = userService.getUserDetailsFromToken(token);
+        return ResponseEntity.ok(ApiResponse.builder()
+                .success(true)
+                .result(UserResponse.fromUser(user))
                 .build());
     }
 }

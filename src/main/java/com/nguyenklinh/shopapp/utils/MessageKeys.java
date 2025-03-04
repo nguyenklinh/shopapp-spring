@@ -14,12 +14,14 @@ public class MessageKeys {
     public static final String UNSUPPORTED_MEDIA_TYPE = "error.unsupported.media.type";
 
     // Authentication & User Related
+    public static final String TOKEN_EXPIRED = "error.token.expired";
     public static final String USER_EXISTED = "error.user.existed";
     public static final String USER_NOT_EXISTED = "error.user.not.existed";
     public static final String USER_NOT_FOUND = "error.user.not.found";
     public static final String USER_ID_INVALID = "error.user.id.invalid";
     public static final String USERNAME_NOT_FOUND = "error.username.not.found";
     public static final String LOGIN_INVALID = "error.login.invalid";
+    public static final String USER_ID_LOCKED = "error.user.id.locked";
 
     // Password Related
     public static final String PASSWORD_NOT_MATCH = "error.password.not.match";
