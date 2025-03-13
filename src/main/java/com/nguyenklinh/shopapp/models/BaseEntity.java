@@ -11,9 +11,6 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @MappedSuperclass
 public class BaseEntity {
     @JsonProperty("created_at")

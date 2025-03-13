@@ -43,20 +43,18 @@ public class UserServiceImpl implements UserService {
         if(userRepository.existsByPhoneNumber(phoneNumber)) {
             throw new MyException(ErrorCode.USER_EXISTED);
         }
-        userDTO.setRoleId(1L);
-        Role role = roleRepository.findById(userDTO.getRoleId())
-                .orElseThrow(()-> new MyException(ErrorCode.CAN_NOT_FIND_ROLE));
-
         //convert from userDTO => user
         User user = userMapper.toUser(userDTO);
         user.setActive(true);
-        user.setRole(role);
         // Kiểm tra nếu có accountId, không yêu cầu password
         if (userDTO.getFacebookAccountId() == 0 && userDTO.getGoogleAccountId() == 0) {
             String password = userDTO.getPassword();
             String encodedPassword = passwordEncoder.encode(password);
             user.setPassword(encodedPassword);
         }
+        Role role = roleRepository.findByName(Role.USER)
+                .orElseThrow(() -> new MyException(ErrorCode.CAN_NOT_FIND_ROLE,"USER"));
+        user.setRole(role);
         return userRepository.save(user);
     }
 

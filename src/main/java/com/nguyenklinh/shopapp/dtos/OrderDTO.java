@@ -11,12 +11,9 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Data//toString
+@Builder
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class OrderDTO {
     @JsonProperty("user_id")
     @Min(value = 1, message = "USER_ID_REQUIRED")

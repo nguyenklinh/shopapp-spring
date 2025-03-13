@@ -4,12 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
-@Data
+@Builder
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class ChangePasswordDTO {
     @NotBlank(message = "CURRENT_PASSWORD_BLANK")
     @JsonProperty("current_password")

@@ -5,12 +5,9 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
-@Data
+@Builder
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class UserLoginDTO {
     @JsonProperty("phone_number")
     @NotBlank(message = "PHONE_NUMBER_NOT_BLANK")

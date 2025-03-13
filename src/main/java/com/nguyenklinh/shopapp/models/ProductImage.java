@@ -1,10 +1,11 @@
 package com.nguyenklinh.shopapp.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Getter
 @Setter
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,7 +17,9 @@ public class ProductImage {
     private Long id;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "product_id")
+    @ToString.Exclude
     private Product product;
 
     @Column(name = "image_url", length = 300)

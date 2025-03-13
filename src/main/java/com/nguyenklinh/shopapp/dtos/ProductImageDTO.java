@@ -3,12 +3,9 @@ package com.nguyenklinh.shopapp.dtos;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-@Data//toString
+@Builder
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class ProductImageDTO {
     @JsonProperty("product_id")
     private Long productId;

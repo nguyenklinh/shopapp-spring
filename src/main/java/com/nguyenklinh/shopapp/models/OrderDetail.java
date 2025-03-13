@@ -5,10 +5,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Getter
 @Setter
+@Getter
 @Builder
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

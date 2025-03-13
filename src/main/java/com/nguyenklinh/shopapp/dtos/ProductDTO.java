@@ -7,12 +7,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-@Data//toString
+@Builder
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class ProductDTO {
     @NotBlank(message = "PRODUCT_NAME_NOT_BLANK")
     private String name;
