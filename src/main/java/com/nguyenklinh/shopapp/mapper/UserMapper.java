@@ -1,6 +1,7 @@
 package com.nguyenklinh.shopapp.mapper;
 
 import com.nguyenklinh.shopapp.dtos.OrderDetailDTO;
+import com.nguyenklinh.shopapp.dtos.UpdateUserDTO;
 import com.nguyenklinh.shopapp.dtos.UserDTO;
 import com.nguyenklinh.shopapp.models.OrderDetail;
 import com.nguyenklinh.shopapp.models.User;
@@ -15,5 +16,6 @@ public interface UserMapper {
     UserDTO toUserDTO(User user);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateUser(@MappingTarget User user, UserDTO userDTO);
+    void updateUser(@MappingTarget User user, UpdateUserDTO updateUserDTO);
+
 }

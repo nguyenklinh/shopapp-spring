@@ -6,6 +6,10 @@ public class MessageKeys {
     public static final String SUCCESS_DELETED_ORDER = "success.order.deleted";
     public static final String SUCCESS_DELETED_ORDER_DETAIL = "success.order_detail.deleted";
     public static final String SUCCESS_DELETED_PRODUCT = "success.product.deleted";
+    public static final String SUCCESS_LOGIN_USER = "success.user.login";
+    public static final String SUCCESS_REGISTER_USER = "success.user.register";
+    public static final String SUCCESS_UPDATE_USER = "success.user.updated";
+    public static final String SUCCESS_CHANGE_PASSWORD = "success.password.changed";
 
     // System Errors
     public static final String UNCATEGORIZED_EXCEPTION = "error.uncategorized";
@@ -22,10 +26,15 @@ public class MessageKeys {
     public static final String USERNAME_NOT_FOUND = "error.username.not.found";
     public static final String LOGIN_INVALID = "error.login.invalid";
     public static final String USER_ID_LOCKED = "error.user.id.locked";
+    public static final String PHONE_NUMBER_EXISTED = "error.phone.number.existed";
 
     // Password Related
     public static final String PASSWORD_NOT_MATCH = "error.password.not.match";
     public static final String PASSWORD_BLANK = "error.password.blank";
+    public static final String CURRENT_PASSWORD_INVALID = "error.current.password.invalid";
+    public static final String CURRENT_PASSWORD_BLANK = "error.current.password.blank";
+    public static final String NEW_PASSWORD_BLANK = "error.new.password.blank";
+    public static final String NEW_PASSWORD_CONFIRM_BLANK = "error.new.password.confirm.blank";
 
     // Product Related
     public static final String PRODUCT_CREATE_FAILED = "error.product.create.failed";
