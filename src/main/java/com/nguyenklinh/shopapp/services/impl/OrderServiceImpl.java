@@ -14,9 +14,12 @@ import com.nguyenklinh.shopapp.repositorys.OrderDetailRepository;
 import com.nguyenklinh.shopapp.repositorys.OrderRepository;
 import com.nguyenklinh.shopapp.repositorys.ProductRepository;
 import com.nguyenklinh.shopapp.repositorys.UserRepository;
+import com.nguyenklinh.shopapp.responses.OrderResponse;
 import com.nguyenklinh.shopapp.services.OrderService;
 import com.nguyenklinh.shopapp.components.MessageUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -114,5 +117,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> findByUserId(Long userId) {
         return orderRepository.findByUserId(userId);
+    }
+
+    @Override
+    public Page<OrderResponse> searchOrders(String keyword, Pageable pageable) {
+        Page<Order> orderPage = orderRepository.searchOrders(keyword,pageable);
+        return orderPage.map(OrderResponse::fromOrder);
     }
 }

@@ -7,8 +7,6 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class ProductResponse extends BaseResponse{
     private String name;
     private Float price;

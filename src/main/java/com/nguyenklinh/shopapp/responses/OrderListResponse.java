@@ -4,11 +4,11 @@ import lombok.*;
 
 import java.util.List;
 
-@Setter
 @Getter
+@Setter
 @Builder
-public class ProductListResponse {
-    private List<ProductResponse> products;
+public class OrderListResponse {
+    private List<OrderResponse> orderResponses;
     private int totalPages;
     private int currentPage;
     private Long totalElements;

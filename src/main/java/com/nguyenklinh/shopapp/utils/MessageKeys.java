@@ -1,5 +1,7 @@
 package com.nguyenklinh.shopapp.utils;
 
+import jdk.dynalink.beans.StaticClass;
+
 public class MessageKeys {
     //success
     public static final String SUCCESS_CREATED_ORDER = "success.order.created";
