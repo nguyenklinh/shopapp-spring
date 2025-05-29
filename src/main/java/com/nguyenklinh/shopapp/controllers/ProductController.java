@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 
+
 @RestController
 @RequestMapping("${api.prefix}/products")
 //http://localhost:8083/v1/api/products
@@ -32,11 +33,11 @@ public class ProductController {
     private final MessageUtil messageUtil;
     @PostMapping
     public ResponseEntity<?> createProduct(@Valid @RequestBody ProductDTO productDTO)  {
-            Product newProduct = productService.createProduct(productDTO);
-            return ResponseEntity.ok(ApiResponse.builder()
-                    .success(true)
-                    .result(newProduct)
-                    .build());
+        Product newProduct = productService.createProduct(productDTO);
+        return ResponseEntity.ok(ApiResponse.builder()
+                .success(true)
+                .result(newProduct)
+                .build());
 
     }
 
