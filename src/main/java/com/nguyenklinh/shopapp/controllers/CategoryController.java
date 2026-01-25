@@ -47,7 +47,7 @@ public class CategoryController {
         categoryService.deleteCategory(id);
         return ResponseEntity.ok(ApiResponse.builder()
                 .success(true)
-                .message("category has been deleted")
+                .message("category has been deleted.")
                 .build());
    }
 
