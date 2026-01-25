@@ -131,10 +131,9 @@ public class ProductImageController {
                 throw new MyException(ErrorCode.CAN_NOT_CREATE_UPLOAD_DIR);
             }
         }
-        // Đường dẫn đầy đủ đến file
         java.nio.file.Path destination = Paths.get(uploadDir.toString(), uniqueFilename);
 
-        // Sao chép file vào thư mục đích
+        // save file
         try {
             Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
