@@ -134,7 +134,7 @@ public class ProductImageController {
         // Đường dẫn đầy đủ đến file
         java.nio.file.Path destination = Paths.get(uploadDir.toString(), uniqueFilename);
 
-        // Sao chép file vào thư mục đích
+
         try {
             Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
